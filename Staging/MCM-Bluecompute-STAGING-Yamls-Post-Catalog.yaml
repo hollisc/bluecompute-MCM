@@ -1,0 +1,16 @@
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-catalog
+  namespace: default
+  labels:
+    name: bluecompute-catalog
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/catalog-0.3.0.tgz
+        namespace: default
+        version: 0.3.0

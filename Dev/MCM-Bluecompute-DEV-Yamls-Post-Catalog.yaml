@@ -1,0 +1,37 @@
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-catalog
+  namespace: dev
+  labels:
+    name: bluecompute-catalog
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/hollisc/icp-jenkins-helm-bluecompute/master/charts/catalog-0.3.2.tgz
+        namespace: dev
+        version: 0.3.2
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-catalog
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-catalog
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: dev
+spec:
+  destination:
+    name: bluecompute-catalog
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains

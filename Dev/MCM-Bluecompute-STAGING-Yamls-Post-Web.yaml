@@ -1,0 +1,37 @@
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-web-staging
+  namespace: dev
+  labels:
+    name: bluecompute-web-staging
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/hollisc/icp-jenkins-helm-bluecompute/master/charts/web-staging-0.3.1.tgz
+        namespace: dev
+        version: 0.3.1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-web-staging
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-web-staging
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: dev
+spec:
+  destination:
+    name: bluecompute-web-staging
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains

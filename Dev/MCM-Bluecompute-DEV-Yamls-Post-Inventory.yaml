@@ -1,0 +1,37 @@
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-inventory
+  namespace: dev
+  labels:
+    name: bluecompute-inventory
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/inventory-0.3.0.tgz
+        namespace: dev
+        version: 0.3.0
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-inventory
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-inventory
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: dev
+spec:
+  destination:
+    name: bluecompute-inventory
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains

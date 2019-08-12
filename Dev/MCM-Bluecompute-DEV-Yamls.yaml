@@ -1,0 +1,362 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  namespace: default
+  name: bluecompute
+  labels:
+    name: bluecompute
+    app: bluecompute
+spec:
+  componentKinds:
+    - group: mcm.ibm.com/v1alpha1
+      kind: PlacementPolicy
+  descriptor: {}
+  selector:
+    matchLabels:
+      app: bluecompute
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-web
+  namespace: default
+  labels:
+    name: bluecompute-web
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/web-0.3.0.tgz
+        namespace: default
+        version: 0.3.0
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-catalog
+  namespace: default
+  labels:
+    name: bluecompute-catalog
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/catalog-0.3.0.tgz
+        namespace: default
+        version: 0.3.0
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-customer
+  namespace: default
+  labels:
+    name: bluecompute-customer
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/customer-0.3.0.tgz
+        namespace: default
+        version: 0.3.0
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-inventory
+  namespace: default
+  labels:
+    name: bluecompute-inventory
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/inventory-0.3.0.tgz
+        namespace: default
+        version: 0.3.0
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-orders
+  namespace: default
+  labels:
+    name: bluecompute-orders
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/orders-0.3.0.tgz
+        namespace: default
+        version: 0.3.0
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-web
+  labels:
+    name: bluecompute-web
+    app: bluecompute
+  namespace: default
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-catalog
+  labels:
+    name: bluecompute-catalog
+    app: bluecompute
+  namespace: default
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-customer
+  labels:
+    name: bluecompute-customer
+    app: bluecompute
+  namespace: default
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-inventory
+  labels:
+    name: bluecompute-inventory
+    app: bluecompute
+  namespace: default
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-orders
+  labels:
+    name: bluecompute-orders
+    app: bluecompute
+  namespace: default
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-web
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-web
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: default
+spec:
+  destination:
+    name: bluecompute-web
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-catalog
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-catalog
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: default
+spec:
+  destination:
+    name: bluecompute-catalog
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-customer
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-customer
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: default
+spec:
+  destination:
+    name: bluecompute-customer
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-inventory
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-inventory
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: default
+spec:
+  destination:
+    name: bluecompute-inventory
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-orders
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-orders
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: default
+spec:
+  destination:
+    name: bluecompute-orders
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-web-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-web
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-web
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-catalog-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-catalog
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-catalog
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-customer-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-customer
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-customer
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-inventory-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-inventory
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-inventory
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-orders-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-orders
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-orders
+---

@@ -1,0 +1,37 @@
+apiVersion: mcm.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: bluecompute-orders
+  namespace: dev
+  labels:
+    name: bluecompute-orders
+    app: bluecompute
+    serviceKind: ApplicationService
+spec:
+  deployer:
+      kind: helm
+      helm:
+        chartURL: >-
+          https://raw.githubusercontent.com/ibm-cloud-academy/icp-jenkins-helm-bluecompute/master/charts/orders-0.3.0.tgz
+        namespace: dev
+        version: 0.3.0
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: ApplicationRelationship
+metadata:
+  name: bluecompute-app-orders
+  labels:
+    app: bluecompute
+    destinationKind: Deployable
+    destinationName: bluecompute-orders
+    sourceKind: Application
+    sourceName: bluecompute
+  namespace: dev
+spec:
+  destination:
+    name: bluecompute-orders
+    kind: Deployable
+  source:
+    name: bluecompute
+    kind: Application
+  type: contains

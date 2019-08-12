@@ -1,0 +1,172 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  namespace: dev
+  name: bluecompute
+  labels:
+    name: bluecompute
+    app: bluecompute
+spec:
+  componentKinds:
+    - group: mcm.ibm.com/v1alpha1
+      kind: PlacementPolicy
+  descriptor: {}
+  selector:
+    matchLabels:
+      app: bluecompute
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-web
+  labels:
+    name: bluecompute-web
+    app: bluecompute
+  namespace: dev
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-catalog
+  labels:
+    name: bluecompute-catalog
+    app: bluecompute
+  namespace: dev
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-customer
+  labels:
+    name: bluecompute-customer
+    app: bluecompute
+  namespace: dev
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-inventory
+  labels:
+    name: bluecompute-inventory
+    app: bluecompute
+  namespace: dev
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementPolicy
+metadata:
+  name: bluecompute-orders
+  labels:
+    name: bluecompute-orders
+    app: bluecompute
+  namespace: dev
+spec:
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+  clusterReplicas: 1
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-web-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-web
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-web
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-catalog-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-catalog
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-catalog
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-customer-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-customer
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-customer
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-inventory-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-inventory
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-inventory
+---
+apiVersion: mcm.ibm.com/v1alpha1
+kind: PlacementBinding
+metadata:
+    labels:
+      app: bluecompute
+      name: bluecompute
+      placementPolicy: bluecompute
+    name: bluecompute-orders-placementbinding
+placementRef:
+  apiGroup: mcm.ibm.com
+  kind: PlacementPolicy
+  name: bluecompute-orders
+subjects:
+- apiGroup: mcm.ibm.com
+  kind: Deployable
+  name: bluecompute-orders
+---
